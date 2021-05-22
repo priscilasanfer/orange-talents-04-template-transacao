@@ -25,7 +25,7 @@ public class Transacao {
     @Embedded
     private Estabelecimento estabelecimento;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Cartao cartao;
     private LocalDateTime efetivadaEm;
 

@@ -1,10 +1,14 @@
 package br.com.zupacademy.priscila.transacao.transacao;
 
+import br.com.zupacademy.priscila.transacao.cartao.Cartao;
+import br.com.zupacademy.priscila.transacao.cartao.CartaoRepository;
 import br.com.zupacademy.priscila.transacao.cartao.CartaoResponse;
+import br.com.zupacademy.priscila.transacao.estabelicmento.Estabelecimento;
 import br.com.zupacademy.priscila.transacao.estabelicmento.EstabelecimentoResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class EventoDeTransacao {
 
@@ -49,7 +53,16 @@ public class EventoDeTransacao {
         return efetivadaEm;
     }
 
-    public Transacao toModel(){
-        return new Transacao(id, valor, estabelecimento.toModel(), cartao.toModel(), efetivadaEm);
+    public Transacao toModel(CartaoRepository repository) {
+        Estabelecimento estabelecimento = this.estabelecimento.toModel();
+        Optional<Cartao> possivelCartao = repository.findByNumero(this.cartao.getId());
+        Cartao novoCartao;
+
+        if (possivelCartao.isPresent()) {
+            novoCartao = possivelCartao.get();
+        } else {
+            novoCartao = this.cartao.toModel();
+        }
+        return new Transacao(this.id, this.valor, estabelecimento, novoCartao, this.efetivadaEm);
     }
 }
