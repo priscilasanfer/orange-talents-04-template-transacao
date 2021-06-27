@@ -12,11 +12,13 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
+import org.springframework.kafka.support.converter.JsonMessageConverter;
+
 import java.util.HashMap;
 import java.util.Map;
 
-//@Configuration
-//public class KafkaConfiguration {
+@Configuration
+public class KafkaConfiguration {
 //
 //    private final KafkaProperties kafkaProperties;
 //
@@ -47,4 +49,9 @@ import java.util.Map;
 //        factory.setConsumerFactory(transactionConsumerFactory());
 //        return factory;
 //    }
-//}
+
+    @Bean
+    JsonMessageConverter jsonMessageConverter() {
+        return new JsonMessageConverter();
+    }
+}
